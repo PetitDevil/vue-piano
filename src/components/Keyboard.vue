@@ -1,19 +1,21 @@
 <template>
   <div class="keyboard">
-    
-    <Key v-for="key in getKeys()" 
-      :key="key.note" 
-      :name="key.note" 
-      :src="key.src" 
-      :keyCode="key.keyCode" />
+    <Key
+      v-for="key in getKeys()"
+      :key="key.note"
+      :name="key.note"
+      :src="key.src"
+      :keyCode="key.keyCode"
+    />
 
+    <button @click="test">C4 90</button>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
-import { Key as K } from 'ts-keycode-enum';
-import Key from './Key.vue';
+import { Component, Prop, Vue } from "vue-property-decorator";
+import { Key as K } from "ts-keycode-enum";
+import Key from "./Key.vue";
 
 const numberMap: { [number: number]: number } = {
   0: K.Zero,
@@ -25,31 +27,31 @@ const numberMap: { [number: number]: number } = {
   6: K.Six,
   7: K.Seven,
   8: K.Eight,
-  9: K.Nine
+  9: K.Nine,
 };
 
 @Component({
   components: {
-    Key
-  }
+    Key,
+  },
 })
 export default class Keyboard extends Vue {
   @Prop({ default: {} })
   keysMap!: { [char: string]: string };
 
   protected notes: string[] = [
-    'C',
-    'C#',
-    'D',
-    'D#',
-    'E',
-    'F',
-    'F#',
-    'G',
-    'G#',
-    'A',
-    'A#',
-    'B'
+    "C",
+    "C#",
+    "D",
+    "D#",
+    "E",
+    "F",
+    "F#",
+    "G",
+    "G#",
+    "A",
+    "A#",
+    "B",
   ];
 
   @Prop({ default: 2 })
@@ -64,8 +66,8 @@ export default class Keyboard extends Vue {
       this.notes.forEach((note, index) => {
         const tone = Number(this.start) + i;
 
-        const isBlack = note[1] === '#';
-        const name = (isBlack ? this.notes[index + 1] + 'b' : note) + tone;
+        const isBlack = note[1] === "#";
+        const name = (isBlack ? this.notes[index + 1] + "b" : note) + tone;
         const name2 = note + tone;
         let keyCode = -1;
 
@@ -80,30 +82,39 @@ export default class Keyboard extends Vue {
         keys.push({
           note: note + tone,
           src: `./samples/Piano.mf.${name}.aiff.mp3`,
-          keyCode
+          keyCode,
         });
       });
     }
+    keys.push({ note: "test", src: `./samples/w40.ogg`, keyCode: 999 });
 
     return keys;
   }
 
   mounted() {
-    window.addEventListener('keyup', this.onKeyUp, false);
-    window.addEventListener('keydown', this.onKeyDown, false);
+    window.addEventListener("keyup", this.onKeyUp, false);
+    window.addEventListener("keydown", this.onKeyDown, false);
   }
 
   beforeDestroy() {
-    window.removeEventListener('keydown', this.onKeyDown, false);
-    window.removeEventListener('keyup', this.onKeyUp, false);
+    window.removeEventListener("keydown", this.onKeyDown, false);
+    window.removeEventListener("keyup", this.onKeyUp, false);
   }
 
   onKeyDown(e: KeyboardEvent) {
-    this.$emit('keydown', e.which);
+    this.$emit("keydown", e.which);
   }
 
   onKeyUp(e: KeyboardEvent) {
-    this.$emit('keyup', e.which);
+    this.$emit("keyup", e.which);
+  }
+
+  test() {
+    this.$emit("keydown", 999);
+
+    setTimeout(() => {
+      this.$emit("keyup", 999);
+    }, 500);
   }
 }
 </script>

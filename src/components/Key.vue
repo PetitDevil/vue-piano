@@ -81,12 +81,15 @@ export default class Key extends Vue {
 
   mounted() {
     this.$parent.$on('keydown', (keycode: number) => {
+      console.log("keydown :"+keycode);
       if (keycode === this.keyCode && !this.pressed) {
         this.play();
+        
       }
     });
 
     this.$parent.$on('keyup', (keycode: number) => {
+      console.log("keyup :"+keycode);
       if (keycode === this.keyCode) {
         this.fadeOut();
       }

@@ -22,7 +22,7 @@
     "@vue/cli-plugin-typescript": "^v3.0.0-rc.3",
     "@vue/cli-service": "^v3.0.0-rc.3",
     "@vue/eslint-config-typescript": "^v3.0.0-rc.3",
-    "node-sass": "^4.9.0",
+    "node-sass": "^4.14.1",
     "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.5.16"
   },
